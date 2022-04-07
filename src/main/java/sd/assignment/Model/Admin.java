@@ -1,8 +1,10 @@
 package sd.assignment.Model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "admin")
 public class Admin {
     private Integer id;
     private String name;
@@ -37,10 +39,8 @@ public class Admin {
 
         Admin admin = (Admin) o;
 
-        if (id != null ? !id.equals(admin.id) : admin.id != null) return false;
-        if (name != null ? !name.equals(admin.name) : admin.name != null) return false;
-
-        return true;
+        if (!Objects.equals(id, admin.id)) return false;
+        return Objects.equals(name, admin.name);
     }
 
     @Override

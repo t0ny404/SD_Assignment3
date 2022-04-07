@@ -2,8 +2,10 @@ package sd.assignment.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "menu")
 public class Menus {
     private Integer id;
     private Collection<Cart> cartsById;
@@ -28,9 +30,7 @@ public class Menus {
 
         Menus menus = (Menus) o;
 
-        if (id != null ? !id.equals(menus.id) : menus.id != null) return false;
-
-        return true;
+        return Objects.equals(id, menus.id);
     }
 
     @Override

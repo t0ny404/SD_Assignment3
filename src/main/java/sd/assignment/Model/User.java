@@ -1,16 +1,15 @@
 package sd.assignment.Model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "user")
 public class User {
     private Integer id;
     private String username;
     private String password;
     private Boolean type;
-    private Collection<Admin> adminsById;
-    private Collection<Customer> customersById;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -60,12 +59,10 @@ public class User {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (type != null ? !type.equals(user.type) : user.type != null) return false;
-
-        return true;
+        if (!Objects.equals(id, user.id)) return false;
+        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(password, user.password)) return false;
+        return Objects.equals(type, user.type);
     }
 
     @Override
@@ -75,23 +72,5 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "userByUser")
-    public Collection<Admin> getAdminsById() {
-        return adminsById;
-    }
-
-    public void setAdminsById(Collection<Admin> adminsById) {
-        this.adminsById = adminsById;
-    }
-
-    @OneToMany(mappedBy = "userByUser")
-    public Collection<Customer> getCustomersById() {
-        return customersById;
-    }
-
-    public void setCustomersById(Collection<Customer> customersById) {
-        this.customersById = customersById;
     }
 }

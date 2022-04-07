@@ -2,14 +2,17 @@ package sd.assignment.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "customer")
 public class Customer {
     private Integer id;
     private String name;
     private String email;
+    private Integer age;
     private Collection<Cart> cartsById;
-    private User userByUser;
+    private User user;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -42,6 +45,16 @@ public class Customer {
         this.email = email;
     }
 
+    @Basic
+    @Column(name = "age")
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,11 +62,9 @@ public class Customer {
 
         Customer customer = (Customer) o;
 
-        if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
-        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
-        if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
-
-        return true;
+        if (!Objects.equals(id, customer.id)) return false;
+        if (!Objects.equals(name, customer.name)) return false;
+        return Objects.equals(email, customer.email);
     }
 
     @Override
@@ -75,11 +86,11 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id")
-    public User getUserByUser() {
-        return userByUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(User userByUser) {
+        this.user = userByUser;
     }
 }

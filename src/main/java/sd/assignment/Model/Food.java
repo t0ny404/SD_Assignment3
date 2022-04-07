@@ -2,11 +2,13 @@ package sd.assignment.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "food")
 public class Food {
     private Integer id;
-    private Object category;
+    private Category category;
     private String name;
     private String description;
     private Integer price;
@@ -23,13 +25,13 @@ public class Food {
         this.id = id;
     }
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    public Object getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Object category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -70,13 +72,11 @@ public class Food {
 
         Food food = (Food) o;
 
-        if (id != null ? !id.equals(food.id) : food.id != null) return false;
-        if (category != null ? !category.equals(food.category) : food.category != null) return false;
-        if (name != null ? !name.equals(food.name) : food.name != null) return false;
-        if (description != null ? !description.equals(food.description) : food.description != null) return false;
-        if (price != null ? !price.equals(food.price) : food.price != null) return false;
-
-        return true;
+        if (!Objects.equals(id, food.id)) return false;
+        if (!Objects.equals(category, food.category)) return false;
+        if (!Objects.equals(name, food.name)) return false;
+        if (!Objects.equals(description, food.description)) return false;
+        return Objects.equals(price, food.price);
     }
 
     @Override

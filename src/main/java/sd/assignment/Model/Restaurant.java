@@ -2,8 +2,10 @@ package sd.assignment.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "restaurant")
 public class Restaurant {
     private Integer id;
     private String name;
@@ -60,12 +62,10 @@ public class Restaurant {
 
         Restaurant that = (Restaurant) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (location != null ? !location.equals(that.location) : that.location != null) return false;
-        if (deliveryzone != null ? !deliveryzone.equals(that.deliveryzone) : that.deliveryzone != null) return false;
-
-        return true;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(location, that.location)) return false;
+        return Objects.equals(deliveryzone, that.deliveryzone);
     }
 
     @Override

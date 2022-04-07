@@ -2,11 +2,13 @@ package sd.assignment.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
+@Table(name = "order")
 public class Order {
     private Integer id;
-    private Object status;
+    private Status status;
     private Collection<Cart> cartsById;
 
     @Id
@@ -20,13 +22,13 @@ public class Order {
         this.id = id;
     }
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    public Object getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -37,10 +39,8 @@ public class Order {
 
         Order order = (Order) o;
 
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (status != null ? !status.equals(order.status) : order.status != null) return false;
-
-        return true;
+        if (!Objects.equals(id, order.id)) return false;
+        return Objects.equals(status, order.status);
     }
 
     @Override
