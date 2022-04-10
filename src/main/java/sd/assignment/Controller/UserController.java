@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import sd.assignment.Service.DTO.LoginDTO;
 import sd.assignment.Service.DTO.RegisterDTO;
 import sd.assignment.Service.DTO.ResponseDTO;
+import sd.assignment.Service.DTO.UserDTO;
 import sd.assignment.Service.UserService;
 import sd.assignment.Service.Utils.Severity;
 
@@ -31,14 +32,15 @@ public class UserController {
 
     @PostMapping("login")
     public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
-        String session;
+        UserDTO user;
         try {
-            session = userService.login(loginDTO);
+            user = userService.login(loginDTO);
         } catch(Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDTO(e.getMessage(), Severity.FAILURE));
         }
+
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO("User registered!", Severity.SUCCESS, session));
+                .body(new ResponseDTO("User registered!", Severity.SUCCESS, user));
     }
 }

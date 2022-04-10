@@ -1,26 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import './SignUp.css';
-import {Link, NavLink, useNavigate} from "react-router-dom";
-
-async function registerUser(credentials) {
-    return fetch('http://localhost:8082/user/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-        .then(data => data.json())
-        .then(data => {
-        if (data.severity === "FAILURE") {
-            alert(data.message)
-        } else {
-            alert("Success!")
-            useNavigate()('/')
-        }
-    })
-}
+import '../index.css';
+import {useNavigate} from "react-router-dom";
 
 function SignUp() {
     const [username, setUserName] = useState();
@@ -34,19 +14,35 @@ function SignUp() {
 
     const handleRegister = async e => {
         e.preventDefault();
-        const token = await registerUser({
+        let credentials = {
             username,
             password,
             checkpswd,
             name,
             email,
             age
-        });
+        }
+        fetch('http://localhost:8082/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+            .then(data => data.json())
+            .then(data => {
+                if (data.severity === "FAILURE") {
+                    alert(data.message)
+                } else {
+                    alert("Success!")
+                    navigate('/')
+                }
+            })
     }
 
     return(
-        <div className="register">
-            <form className="register-form" onSubmit={handleRegister}>
+        <div className="init">
+            <form onSubmit={handleRegister}>
                 <label>
                     <p>Username</p>
                     <input className="form-input" type="text" onChange={e => setUserName(e.target.value)}/>

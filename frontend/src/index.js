@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import SignUp from "./SignUp";
+import SignUp from "./Customer/SignUp";
+import CustomerView from "./Customer/CustomerView";
+import AdminView from "./Admin/AdminView";
 
 ReactDOM.render((
         <BrowserRouter>
             <Routes> {/* The Switch decides which component to show based on the current URL.*/}
                 <Route path='*' element={<App/>}/>
                 <Route path='/signup' element={<SignUp/>}/>
+                <Route path='/customer' element={<CustomerView/>}/>
+                <Route path='/admin' element={<AdminView/>}/>
             </Routes>
         </BrowserRouter>
     ), document.getElementById('root')

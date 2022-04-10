@@ -11,7 +11,6 @@ public class Customer {
     private String name;
     private String email;
     private Integer age;
-    private Collection<Cart> cartsById;
     private User user;
 
     @Id
@@ -73,15 +72,6 @@ public class Customer {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "customerByClient")
-    public Collection<Cart> getCartsById() {
-        return cartsById;
-    }
-
-    public void setCartsById(Collection<Cart> cartsById) {
-        this.cartsById = cartsById;
     }
 
     @ManyToOne

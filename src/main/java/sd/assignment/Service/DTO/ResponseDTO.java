@@ -6,17 +6,17 @@ public class ResponseDTO {
 
     private String message;
     private Severity severity;
-    private String session;
+    private UserDTO userDTO;
 
     public ResponseDTO(String message, Severity severity) {
         this.message = message;
         this.severity = severity;
     }
 
-    public ResponseDTO(String message, Severity severity, String session) {
+    public ResponseDTO(String message, Severity severity, UserDTO userDTO) {
         this.message = message;
         this.severity = severity;
-        this.session = session;
+        this.userDTO = userDTO;
     }
 
     public String getMessage() {
@@ -33,5 +33,13 @@ public class ResponseDTO {
 
     public void setSeverity(Severity severity) {
         this.severity = severity;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 }

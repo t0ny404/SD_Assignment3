@@ -8,8 +8,8 @@ import java.util.Objects;
 public class Admin {
     private Integer id;
     private String name;
-    private Restaurant restaurantByRestaurant;
-    private User userByUser;
+    private User user;
+    private Restaurant restaurant;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -51,22 +51,18 @@ public class Admin {
     }
 
     @ManyToOne
-    @JoinColumn(name = "restaurant", referencedColumnName = "id")
-    public Restaurant getRestaurantByRestaurant() {
-        return restaurantByRestaurant;
-    }
-
-    public void setRestaurantByRestaurant(Restaurant restaurantByRestaurant) {
-        this.restaurantByRestaurant = restaurantByRestaurant;
-    }
-
-    @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id")
-    public User getUserByUser() {
-        return userByUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(User userByUser) {
+        this.user = userByUser;
     }
+
+    @OneToOne
+    @JoinColumn(name = "restaurant", referencedColumnName = "id")
+    public Restaurant getRestaurant() { return restaurant; }
+
+    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant;}
 }

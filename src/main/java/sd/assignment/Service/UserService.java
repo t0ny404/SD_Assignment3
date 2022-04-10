@@ -2,19 +2,22 @@ package sd.assignment.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+
 import sd.assignment.Model.Customer;
 import sd.assignment.Model.User;
+import sd.assignment.Repository.AdminRepository;
 import sd.assignment.Repository.CustomerRepository;
 import sd.assignment.Repository.UserRepository;
 import sd.assignment.Service.DTO.LoginDTO;
 import sd.assignment.Service.DTO.RegisterDTO;
+import sd.assignment.Service.DTO.UserDTO;
 import sd.assignment.Service.Mappers.UserMapper;
 import sd.assignment.Service.Utils.Encryptioner;
 import sd.assignment.Service.Utils.InvalidLoginException;
 import sd.assignment.Service.Utils.InvalidRegisterException;
 import sd.assignment.Service.Validators.UserValidator;
 
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,6 +26,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
     private final UserValidator userValidator = new UserValidator();
     private final UserMapper userMapper =  new UserMapper();
@@ -30,11 +35,15 @@ public class UserService {
     public void register(RegisterDTO registerDTO) throws InvalidRegisterException {
         userValidator.validateRegister(registerDTO);
         Customer customer = userMapper.convertFromDTO(registerDTO);
+
+        if (userRepository.findByUsername(customer.getUser().getUsername()).isPresent())
+            throw new InvalidRegisterException("User already exists!");
+
         userRepository.save(customer.getUser());
         customerRepository.save(customer);
     }
 
-    public String login(LoginDTO loginDTO) throws InvalidLoginException {
+    public UserDTO login(LoginDTO loginDTO) throws InvalidLoginException {
         Optional<User> opt = userRepository.findByUsername(loginDTO.getUsername());
 
         if (opt.isEmpty()) {
@@ -48,7 +57,7 @@ public class UserService {
         }
 
         if (user.getType())
-            return "Admin";
-        else return "Customer";
+            return userMapper.convertToDTO(adminRepository.findByUser(user));
+        else return userMapper.convertToDTO(customerRepository.findByUser(user));
     }
 }

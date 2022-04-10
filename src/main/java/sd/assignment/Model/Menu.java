@@ -6,11 +6,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "menu")
-public class Menus {
+public class Menu {
     private Integer id;
-    private Collection<Cart> cartsById;
-    private Restaurant restaurantByRestaurant;
-    private Food foodByFood;
+    private Restaurant restaurant;
+    private Food food;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -28,9 +27,9 @@ public class Menus {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Menus menus = (Menus) o;
+        Menu menu = (Menu) o;
 
-        return Objects.equals(id, menus.id);
+        return Objects.equals(id, menu.id);
     }
 
     @Override
@@ -38,32 +37,23 @@ public class Menus {
         return id != null ? id.hashCode() : 0;
     }
 
-    @OneToMany(mappedBy = "menusByMenu")
-    public Collection<Cart> getCartsById() {
-        return cartsById;
-    }
-
-    public void setCartsById(Collection<Cart> cartsById) {
-        this.cartsById = cartsById;
-    }
-
     @ManyToOne
     @JoinColumn(name = "restaurant", referencedColumnName = "id")
-    public Restaurant getRestaurantByRestaurant() {
-        return restaurantByRestaurant;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantByRestaurant(Restaurant restaurantByRestaurant) {
-        this.restaurantByRestaurant = restaurantByRestaurant;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @ManyToOne
     @JoinColumn(name = "food", referencedColumnName = "id")
-    public Food getFoodByFood() {
-        return foodByFood;
+    public Food getFood() {
+        return food;
     }
 
-    public void setFoodByFood(Food foodByFood) {
-        this.foodByFood = foodByFood;
+    public void setFood(Food food) {
+        this.food = food;
     }
 }

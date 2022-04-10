@@ -9,7 +9,6 @@ import java.util.Objects;
 public class Order {
     private Integer id;
     private Status status;
-    private Collection<Cart> cartsById;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -48,14 +47,5 @@ public class Order {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "orderByOrder")
-    public Collection<Cart> getCartsById() {
-        return cartsById;
-    }
-
-    public void setCartsById(Collection<Cart> cartsById) {
-        this.cartsById = cartsById;
     }
 }

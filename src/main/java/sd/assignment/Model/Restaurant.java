@@ -11,8 +11,7 @@ public class Restaurant {
     private String name;
     private String location;
     private String deliveryzone;
-    private Collection<Admin> adminsById;
-    private Collection<Menus> menusById;
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -75,23 +74,5 @@ public class Restaurant {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (deliveryzone != null ? deliveryzone.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "restaurantByRestaurant")
-    public Collection<Admin> getAdminsById() {
-        return adminsById;
-    }
-
-    public void setAdminsById(Collection<Admin> adminsById) {
-        this.adminsById = adminsById;
-    }
-
-    @OneToMany(mappedBy = "restaurantByRestaurant")
-    public Collection<Menus> getMenusById() {
-        return menusById;
-    }
-
-    public void setMenusById(Collection<Menus> menusById) {
-        this.menusById = menusById;
     }
 }

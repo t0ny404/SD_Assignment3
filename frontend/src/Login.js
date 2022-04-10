@@ -1,36 +1,42 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import './Login.css';
-import {Link, NavLink, useNavigate} from "react-router-dom";
+import './index.css';
+import {useNavigate} from "react-router-dom";
 
 
-async function loginUser(credentials) {
-    return fetch('http://localhost:8082/user/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-        .then(data => data.json())
-}
-
-function Login({ setToken }) {
+function Login() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
 
+    let navigate = useNavigate()
+
     const handleLogIn = async e => {
         e.preventDefault();
-        const token = await loginUser({
+        let credentials = {
             username,
             password
-        });
-        setToken(token);
+        }
+        fetch('http://localhost:8082/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+            .then(data => data.json())
+            .then(data => {
+                if (data.severity === "FAILURE") {
+                    alert(data.message)
+                } else {
+                    if (data.userDTO.type === "Admin") {
+                        navigate('/admin', {state: data.userDTO})
+                    } else navigate('/customer', {state: data.userDTO})
+                }
+            })
     }
 
     return(
-        <div className="login">
-            <form className="login-form" onSubmit={handleLogIn}>
+        <div className="init">
+            <form onSubmit={handleLogIn}>
                 <label>
                     <p>Username</p>
                     <input className="form-input" type="text" onChange={e => setUserName(e.target.value)}/>
@@ -40,15 +46,11 @@ function Login({ setToken }) {
                     <input className="form-input" type="password" onChange={e => setPassword(e.target.value)}/>
                 </label>
                 <div>
-                    <button className="form-button" type="submit">LogIn</button>
+                    <button className="form-button" type="submit"> LogIn </button>
                 </div>
             </form>
         </div>
     )
-}
-
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
 }
 
 export default Login;

@@ -12,7 +12,6 @@ public class Food {
     private String name;
     private String description;
     private Integer price;
-    private Collection<Menus> menusById;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -89,12 +88,8 @@ public class Food {
         return result;
     }
 
-    @OneToMany(mappedBy = "foodByFood")
-    public Collection<Menus> getMenusById() {
-        return menusById;
-    }
-
-    public void setMenusById(Collection<Menus> menusById) {
-        this.menusById = menusById;
+    @Override
+    public String toString() {
+        return name + " --- " + description + " --- :  " + price.toString() + "$\n";
     }
 }
