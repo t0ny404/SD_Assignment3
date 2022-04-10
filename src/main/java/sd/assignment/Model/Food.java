@@ -1,7 +1,8 @@
 package sd.assignment.Model;
 
+import sd.assignment.Model.Utils.Category;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity

@@ -1,8 +1,7 @@
 import React, {Component, useEffect, useState} from "react";
 import '../index.css';
 
-function Restaurants({menu, setMenu}) {
-    const [rId, setRId] = useState()
+function Restaurants({setRestaurant, setMenu}) {
     const [rName, setRName] = useState()
     const [restaurants, setRestaurants] = useState()
 
@@ -32,13 +31,12 @@ function Restaurants({menu, setMenu}) {
             .then(data => data.json())
             .then(data => {
                 setRestaurants(data)
-                console.log(restaurants)
             })
     }
 
 
-    const getMenu = async () => {
-        fetch('http://localhost:8082/menu/' + rId.toString(), {
+    const getMenu = async (id) => {
+        fetch('http://localhost:8082/menu/' + id.toString(), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +44,8 @@ function Restaurants({menu, setMenu}) {
         })
             .then(data => data.json())
             .then(data => {
-                setMenu(data.foods)
+                setMenu(data)
+                setRestaurant(id)
             })
     }
 
@@ -61,10 +60,7 @@ function Restaurants({menu, setMenu}) {
             {
                 restaurants?.map((r, i) => (
                     <div key={i}>
-                        <button onClick={() => {
-                            setRId(r.id)
-                            getMenu()
-                        }}><h2>  {r.name}  </h2></button>
+                        <button onClick={() => getMenu(r.id)}> <h2> {r.name} </h2> </button>
                         <h3> Address: {r.location} </h3>
                         <h4> Available delivery zones: {r.zones} </h4>
                     </div>

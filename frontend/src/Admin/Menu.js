@@ -14,7 +14,7 @@ function Menu() {
         })
             .then(data => data.json())
             .then(data => {
-                setMenu(data.menu)
+                setMenu(data)
             })
     }
 

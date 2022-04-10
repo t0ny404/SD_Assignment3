@@ -2,7 +2,7 @@ package sd.assignment.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sd.assignment.Model.Category;
+import sd.assignment.Model.Utils.Category;
 import sd.assignment.Model.Food;
 
 import java.util.List;

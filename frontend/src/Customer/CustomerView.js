@@ -11,15 +11,16 @@ function CustomerView() {
     const {id, name, type, restaurant} = state;
 
     const [menu, setMenu] = useState()
+    const [restaurantC, setRestaurant] = useState()
 
     return (
         <div>
             <div className="split left">
-               <Restaurants menu={menu} setMenu={setMenu}/>
+               <Restaurants setRestaurant={setRestaurant} setMenu={setMenu}/>
             </div>
 
             <div className="split right">
-                <Menu menu={menu} setMenu={setMenu}/>
+                <Menu restaurant={restaurantC} menu={menu}/>
             </div>
         </div>)
 }

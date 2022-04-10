@@ -7,13 +7,15 @@ public class FoodDTO {
     private String description;
     private Integer price;
     private Integer admin;
+    private Integer id;
 
-    public FoodDTO(String name, String category, String description, Integer price, Integer id) {
+    public FoodDTO(String name, String category, String description, Integer price, Integer id, Integer admin) {
         this.name = name;
         this.category = category;
         this.description = description;
         this.price = price;
-        this.admin = id;
+        this.admin = admin;
+        this.id = id;
     }
 
     public String getName() {
@@ -54,5 +56,13 @@ public class FoodDTO {
 
     public void setAdmin(Integer id) {
         this.admin = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

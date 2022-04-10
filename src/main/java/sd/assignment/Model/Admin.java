@@ -1,11 +1,13 @@
 package sd.assignment.Model;
 
+import sd.assignment.Model.Utils.UserI;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin implements UserI {
     private Integer id;
     private String name;
     private User user;

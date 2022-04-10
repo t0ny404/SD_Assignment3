@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sd.assignment.Service.DTO.FoodDTO;
-import sd.assignment.Service.DTO.MenuDTO;
 import sd.assignment.Service.DTO.ResponseDTO;
 import sd.assignment.Service.FoodService;
 import sd.assignment.Service.Utils.Severity;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -20,13 +22,13 @@ public class MenuController {
 
     @GetMapping("all")
     @ResponseBody
-    public MenuDTO getFoods() {
+    public HashMap<String, List<String>> getFoods() {
         return foodService.getAllFoods();
     }
 
     @GetMapping("{rId}")
     @ResponseBody
-    public MenuDTO getFoodsByRId(@PathVariable Integer rId) {
+    public List<FoodDTO> getFoodsByRId(@PathVariable Integer rId) {
         return foodService.getFoodsByRId(rId);
     }
 

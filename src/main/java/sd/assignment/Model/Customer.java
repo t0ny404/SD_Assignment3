@@ -1,12 +1,13 @@
 package sd.assignment.Model;
 
+import sd.assignment.Model.Utils.UserI;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer implements UserI {
     private Integer id;
     private String name;
     private String email;
@@ -82,5 +83,11 @@ public class Customer {
 
     public void setUser(User userByUser) {
         this.user = userByUser;
+    }
+
+    @Override
+    @Transient
+    public Restaurant getRestaurant() {
+        return null;
     }
 }

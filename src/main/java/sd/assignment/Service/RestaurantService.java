@@ -20,12 +20,10 @@ public class RestaurantService {
     @Autowired
     private AdminRepository adminRepository;
 
-    private final RestaurantMapper restaurantMapper = new RestaurantMapper();
-
     public void add(RestaurantDTO restaurantDTO) {
         Admin admin = adminRepository.findById(restaurantDTO.getAdmin());
 
-        Restaurant restaurant = restaurantMapper.convertFromDTO(restaurantDTO);
+        Restaurant restaurant = new RestaurantMapper().convertFromDTO(restaurantDTO);
         restaurantRepository.save(restaurant);
 
         admin.setRestaurant(restaurant);
@@ -34,11 +32,11 @@ public class RestaurantService {
 
     public List<RestaurantDTO> getAllRestaurants() {
         return restaurantRepository.findAll()
-                .stream().map(restaurantMapper::convertToDTO).collect(Collectors.toList());
+                .stream().map(r -> new RestaurantMapper(r).convertToDTO()).collect(Collectors.toList());
     }
 
     public List<RestaurantDTO> getRestaurantsByName(String name) {
         return restaurantRepository.findByNameStartingWith(name)
-                .stream().map(restaurantMapper::convertToDTO).collect(Collectors.toList());
+                .stream().map(r -> new RestaurantMapper(r).convertToDTO()).collect(Collectors.toList());
     }
 }
