@@ -8,11 +8,14 @@ public class RestaurantDTO {
     private Integer admin;
     private Integer id;
 
-    public RestaurantDTO(String name, String location, String zones, Integer id) {
+    public RestaurantDTO() {
+    }
+
+    public RestaurantDTO(String name, String location, String zones, Integer admin) {
         this.name = name;
         this.location = location;
         this.zones = zones;
-        this.id = id;
+        this.admin = admin;
     }
 
     public RestaurantDTO(String name, String location, String zones) {

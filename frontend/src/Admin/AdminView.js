@@ -4,6 +4,7 @@ import AddRestaurant from "./AddRestaurant";
 import AddFood from "./AddFood";
 import Menu from "./Menu";
 import {useLocation} from "react-router-dom";
+import Orders from "./Orders";
 
 
 function AdminView() {
@@ -20,7 +21,7 @@ function AdminView() {
             </div>
 
             <div className="split right">
-
+                <Orders restaurant={restaurant}/>
             </div>
         </div>);
 }

@@ -9,4 +9,5 @@ import sd.assignment.Model.User;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Customer findByUser(User user);
+    Customer findById(Integer id);
 }

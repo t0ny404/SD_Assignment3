@@ -7,6 +7,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import SignUp from "./Customer/SignUp";
 import CustomerView from "./Customer/CustomerView";
 import AdminView from "./Admin/AdminView";
+import Cart from "./Customer/Cart";
+import Orders from "./Customer/Orders";
 
 ReactDOM.render((
         <BrowserRouter>
@@ -15,6 +17,8 @@ ReactDOM.render((
                 <Route path='/signup' element={<SignUp/>}/>
                 <Route path='/customer' element={<CustomerView/>}/>
                 <Route path='/admin' element={<AdminView/>}/>
+                <Route path='/cart' element={<Cart/>}/>
+                <Route path='/orders' element={<Orders/>}/>
             </Routes>
         </BrowserRouter>
     ), document.getElementById('root')

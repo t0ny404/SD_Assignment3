@@ -7,9 +7,17 @@ import java.util.Objects;
 @Table(name = "cart")
 public class Cart {
     private Integer id;
-    private Customer customer;
     private Menu menu;
     private Order order;
+    private Integer quantity;
+
+    public Cart() {}
+
+    public Cart(Menu menu, Order order, Integer quantity) {
+        this.menu = menu;
+        this.order = order;
+        this.quantity = quantity;
+    }
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -38,16 +46,6 @@ public class Cart {
     }
 
     @ManyToOne
-    @JoinColumn(name = "client", referencedColumnName = "id")
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customerByClient) {
-        this.customer = customerByClient;
-    }
-
-    @ManyToOne
     @JoinColumn(name = "menu", referencedColumnName = "id")
     public Menu getMenusByMenu() {
         return menu;
@@ -58,12 +56,22 @@ public class Cart {
     }
 
     @ManyToOne
-    @JoinColumn(name = "order", referencedColumnName = "id")
+    @JoinColumn(name = "orderr", referencedColumnName = "id")
     public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order orderByOrder) {
         this.order = orderByOrder;
+    }
+
+    @Basic
+    @Column(name = "quantity")
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

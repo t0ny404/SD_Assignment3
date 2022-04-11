@@ -16,6 +16,8 @@ public class FoodMapper implements Mapper<Food, FoodDTO> {
 
     public Food convertFromDTO(FoodDTO foodDTO) {
         Food food = new Food();
+        if (foodDTO.getId() != null)
+            food.setId(foodDTO.getId());
         food.setName(foodDTO.getName());
         food.setDescription(foodDTO.getDescription());
         food.setPrice(foodDTO.getPrice());

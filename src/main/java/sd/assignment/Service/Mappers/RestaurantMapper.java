@@ -23,6 +23,8 @@ public class RestaurantMapper implements Mapper<Restaurant, RestaurantDTO> {
     }
 
     public RestaurantDTO convertToDTO() {
-        return new RestaurantDTO(restaurant.getName(), restaurant.getLocation(), restaurant.getDeliveryzone(), restaurant.getId());
+        RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getName(), restaurant.getLocation(), restaurant.getDeliveryzone());
+        restaurantDTO.setId(restaurant.getId());
+        return restaurantDTO;
     }
 }

@@ -8,6 +8,7 @@ public class FoodDTO {
     private Integer price;
     private Integer admin;
     private Integer id;
+    private Integer quantity;
 
     public FoodDTO(String name, String category, String description, Integer price, Integer id, Integer admin) {
         this.name = name;
@@ -64,5 +65,27 @@ public class FoodDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof FoodDTO) {
+            FoodDTO foodDTO = (FoodDTO) obj;
+            return foodDTO.getId().equals(id);
+        }
+        return false;
     }
 }

@@ -2,33 +2,37 @@ package sd.assignment.Controller;
 
 import org.springframework.web.bind.annotation.*;
 import sd.assignment.Service.ActiveCart;
+import sd.assignment.Service.DTO.FoodDTO;
+
+import java.util.List;
+
 
 @RestController
 @RequestMapping(path="/cart")
 public class CartController {
 
-
-    @PutMapping("{restaurant}/add/{id}")
-    public void add(@PathVariable Integer restaurant, @PathVariable Integer id) {
+    @PutMapping("{restaurant}/add")
+    public void add(@PathVariable Integer restaurant, @RequestBody FoodDTO foodDTO) {
         ActiveCart activeCart = ActiveCart.getCart();
         if (activeCart.getRestaurant() == null)
             activeCart.setRestaurant(restaurant);
-        ActiveCart.getCart().add(id);
+        ActiveCart.getCart().add(foodDTO);
     }
 
-    @PutMapping("remove/{id}")
-    public void remove(@PathVariable Integer id) {
-        ActiveCart.getCart().remove(id);
+    @PutMapping("remove")
+    public void remove(@RequestBody FoodDTO foodDTO) {
+        ActiveCart.getCart().remove(foodDTO);
     }
-//
-//    @GetMapping("{id}")
-//    public get(@PathVariable Integer id) {
-//        ActiveCart.getCart().;
-//    }
-//
-//    @GetMapping("all")
-//    @ResponseBody
-//    public  getAll() {
-//        ActiveCart.getCart().add(id);
-//    }
+
+    @GetMapping("all")
+    @ResponseBody
+    public List<FoodDTO> getAll() {
+        return ActiveCart.getCart().getAll();
+    }
+
+    @GetMapping("total")
+    @ResponseBody
+    public Integer getTotal() {
+        return ActiveCart.getCart().getTotal();
+    }
 }
