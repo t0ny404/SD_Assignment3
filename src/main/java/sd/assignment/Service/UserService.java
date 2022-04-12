@@ -19,7 +19,7 @@ import sd.assignment.Service.Mappers.CustomerMapper;
 import sd.assignment.Service.Utils.Encryptioner;
 import sd.assignment.Service.Utils.InvalidLoginException;
 import sd.assignment.Service.Utils.InvalidRegisterException;
-import sd.assignment.Service.Validators.UserValidator;
+import sd.assignment.Service.Utils.UserValidator;
 
 
 @Service

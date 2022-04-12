@@ -25,7 +25,9 @@ function Orders({restaurant}) {
     }, [])
 
     const filter = async () => {
-        fetch('http://localhost:8082/order/all/' + restaurant.toString() + '/filter/' + status.toString(), {
+        if (status === "ALL")
+            getOrders()
+        else fetch('http://localhost:8082/order/all/' + restaurant.toString() + '/filter/' + status.toString(), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +53,8 @@ function Orders({restaurant}) {
     return (
         <div>
             <label>
-                <select className="form-select" defaultValue="PENDING" onChange={e => setStatus(e.target.value)}>
+                <select className="form-select" defaultValue="ALL" onChange={e => setStatus(e.target.value)}>
+                    <option value="ALL"> All </option>
                     <option value="PENDING"> Pending </option>
                     <option value="ACCEPTED"> Accepted </option>
                     <option value="DECLINED"> Declined </option>

@@ -2,8 +2,8 @@ package sd.assignment.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import sd.assignment.Model.Cart;
-import sd.assignment.Model.Menu;
 import sd.assignment.Model.Order;
 import sd.assignment.Model.Restaurant;
 import sd.assignment.Model.Utils.Status;
@@ -13,6 +13,7 @@ import sd.assignment.Service.DTO.OrderDTO;
 import sd.assignment.Service.Mappers.FoodMapper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getHistory(Integer user) {
-        return orderRepository.findByCustomerAndStatusNotLike(customerRepository.findById(user), Status.PENDING)
+        return orderRepository.findByCustomerAndStatusIn(customerRepository.findById(user), new Status[]{Status.DECLINED, Status.DELIVERED})
                 .stream().map(o -> new OrderDTO(
                         o.getId(),
                         cartRepository.findByOrder(o).get(0).getMenusByMenu().getRestaurant().getName(),
@@ -61,7 +62,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getCurrent(Integer user) {
-        return orderRepository.findByCustomerAndStatusLike(customerRepository.findById(user), Status.PENDING)
+        return orderRepository.findByCustomerAndStatusNotIn(customerRepository.findById(user), new Status[]{Status.DECLINED, Status.DELIVERED})
                 .stream().map(o -> new OrderDTO(
                         o.getId(),
                         cartRepository.findByOrder(o).get(0).getMenusByMenu().getRestaurant().getName(),

@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findByCustomerAndStatusNotLike(Customer customer, Status status);
-    List<Order> findByCustomerAndStatusLike(Customer customer, Status status);
+    List<Order> findByCustomerAndStatusIn(Customer customer, Status[] status);
+    List<Order> findByCustomerAndStatusNotIn(Customer customer, Status[] status);
     List<Order> findByRestaurant(Restaurant restaurant);
     Order findById(Integer id);
 }

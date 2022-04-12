@@ -26,6 +26,7 @@ function Login() {
             .then(data => {
                 if (data.severity === "FAILURE") {
                     alert(data.message)
+                    window.location.reload(false)
                 } else {
                     if (data.userDTO.type === "Admin") {
                         navigate('/admin', {state: data.userDTO})

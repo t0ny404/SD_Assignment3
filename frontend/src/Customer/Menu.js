@@ -18,12 +18,12 @@ function Menu({restaurant, menu}) {
             body: JSON.stringify(f)
         })
             .then(() => {
+                total += f.price
+                alert("Total: " + total.toString())
                 if (!hide) {
                     setHide(true)
                     setCurrent(restaurant)
                 }
-                total += f.price
-                alert("Total: " + total.toString())
             })
     }
 

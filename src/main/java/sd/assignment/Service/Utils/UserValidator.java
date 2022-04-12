@@ -1,7 +1,6 @@
-package sd.assignment.Service.Validators;
+package sd.assignment.Service.Utils;
 
 import sd.assignment.Service.DTO.RegisterDTO;
-import sd.assignment.Service.Utils.InvalidRegisterException;
 
 public class UserValidator {
 
