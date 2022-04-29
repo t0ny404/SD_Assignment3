@@ -1,9 +1,10 @@
 package sd.assignment.Service.Utils;
 
 import com.lambdaworks.crypto.SCryptUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-public class Encryptioner {
+public class Encoder implements PasswordEncoder {
     private static final int N = 16384;
     private static final int r = 8;
     private static final int p = 1;
@@ -18,11 +19,13 @@ public class Encryptioner {
      *   salt   - base64-encoded salt
      *   key    - base64-encoded derived key
      */
-    public static String encrypt(String password) {
-        return SCryptUtil.scrypt(password, N, r, p);
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return SCryptUtil.scrypt((String) rawPassword, N, r, p);
     }
 
-    public static Boolean check(String password, String stored) {
-        return SCryptUtil.check(password, stored);
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return SCryptUtil.check((String) rawPassword, encodedPassword);
     }
 }

@@ -1,5 +1,7 @@
 package sd.assignment.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,7 +10,7 @@ import java.util.Objects;
 public class User {
     private Integer id;
     private String username;
-    private String password;
+    private @JsonIgnore String password;
     private Boolean type;
 
     @Id

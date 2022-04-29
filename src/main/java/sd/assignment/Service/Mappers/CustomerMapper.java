@@ -3,7 +3,8 @@ package sd.assignment.Service.Mappers;
 import sd.assignment.Model.Customer;
 import sd.assignment.Model.User;
 import sd.assignment.Service.DTO.RegisterDTO;
-import sd.assignment.Service.Utils.Encryptioner;
+import sd.assignment.Service.UserService;
+import sd.assignment.Service.Utils.Encoder;
 
 
 public class CustomerMapper implements Mapper<Customer, RegisterDTO> {
@@ -16,7 +17,7 @@ public class CustomerMapper implements Mapper<Customer, RegisterDTO> {
 
         User user = new User();
         user.setUsername(registerDTO.getUsername());
-        user.setPassword(Encryptioner.encrypt(registerDTO.getPassword()));
+        user.setPassword(UserService.ENCODER.encode(registerDTO.getPassword()));
         user.setType(false);
 
         customer.setUser(user);
