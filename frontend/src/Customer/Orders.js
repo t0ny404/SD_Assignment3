@@ -1,45 +1,54 @@
 import React, {Component, useEffect, useState} from "react";
 import '../index.css';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import GetCurrent from "../GetCurrent";
 
 function Orders() {
 
-    const {state} = useLocation();
-    const {user} = state
+    const [auth, setAuth] = useState(false)
+    const [user, setUser] = useState({id: -1, type: ''})
 
     const [history, setHistory] = useState()
     const [pending, setPending] = useState()
 
+    const navigate = useNavigate()
+
     useEffect(() => {
-        const getHistory = async () => {
-            fetch('http://localhost:8082/order/history/' + user.toString(), {
+        const getHistory = (id) => {
+            fetch('http://localhost:8082/order/history/' + id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             })
                 .then(data => data.json())
                 .then(data => {
                     setHistory(data)
                 })
         }
-        const getPending = async () => {
-            fetch('http://localhost:8082/order/pending/' + user.toString(), {
+        const getPending = (id) => {
+            fetch('http://localhost:8082/order/pending/' + id , {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             })
                 .then(data => data.json())
                 .then(data => {
                     setPending(data)
                 })
         }
-        getHistory();
-        getPending();
+        GetCurrent(setAuth, setUser, navigate)
+            .then(user => {
+            getPending(user.id);
+            getHistory(user.id);
+        })
     }, [])
 
-    return (
+
+    if (auth && user.type === 'Customer') return (
         <div>
             <div className="split left">
                 <h1> Pending </h1>

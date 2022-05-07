@@ -25,6 +25,8 @@ import sd.assignment.Service.Utils.InvalidLoginException;
 import sd.assignment.Service.Utils.InvalidRegisterException;
 import sd.assignment.Service.Utils.UserValidator;
 
+import javax.swing.text.html.Option;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -51,26 +53,45 @@ public class UserService implements UserDetailsService {
         customerRepository.save(customer);
     }
 
-    public UserDTO login(LoginDTO loginDTO) throws InvalidLoginException {
-        Optional<User> opt = userRepository.findByUsername(loginDTO.getUsername());
-        if (opt.isEmpty()) {
-            throw new InvalidLoginException();
-        }
-        User user = opt.get();
+//    public UserDTO login(LoginDTO loginDTO) throws InvalidLoginException {
+//        Optional<User> opt = userRepository.findByUsername(loginDTO.getUsername());
+//        if (opt.isEmpty()) {
+//            throw new InvalidLoginException();
+//        }
+//        User user = opt.get();
+//
+//        if (!ENCODER.matches(loginDTO.getPassword(), user.getPassword())) {
+//            throw new InvalidLoginException();
+//        }
+//
+//        UserI userI;
+//        String type = "Customer";
+//        if (user.getType() == null)
+//            userI = new NoUser();
+//        else if (user.getType()) {
+//            userI = adminRepository.findByUser(user);
+//            type = "Admin";
+//        }
+//        else userI = customerRepository.findByUser(user);
+//
+//        return new UserAdapter(userI, type).convertToDTO();
+//    }
 
-        if (!ENCODER.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new InvalidLoginException();
-        }
+    public UserDTO getCurrentUser(org.springframework.security.core.userdetails.User user) {
+        if (user == null)
+            return new UserAdapter(new NoUser(), "").convertToDTO();
+
+        Optional<User> currentUser = userRepository.findByUsername(user.getUsername());
 
         UserI userI;
         String type = "Customer";
-        if (user.getType() == null)
+        if (currentUser.isEmpty() || currentUser.get().getType() == null)
             userI = new NoUser();
-        else if (user.getType()) {
-            userI = adminRepository.findByUser(user);
+        else if (currentUser.get().getType()) {
+            userI = adminRepository.findByUser(currentUser.get());
             type = "Admin";
         }
-        else userI = customerRepository.findByUser(user);
+        else userI = customerRepository.findByUser(currentUser.get());
 
         return new UserAdapter(userI, type).convertToDTO();
     }
@@ -79,6 +100,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) throw new UsernameNotFoundException("");
+
         return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(),
                 AuthorityUtils.createAuthorityList(user.get().getType() ? "Admin" : "Customer"));
     }

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../index.css';
+import GetCurrent from "../GetCurrent";
+import {useNavigate} from "react-router-dom";
 
 function AddRestaurant({admin}) {
     const [name, setName] = useState();

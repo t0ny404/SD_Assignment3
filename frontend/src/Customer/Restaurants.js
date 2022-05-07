@@ -1,9 +1,12 @@
 import React, {Component, useEffect, useState} from "react";
 import '../index.css';
+import {useNavigate} from "react-router-dom";
 
 function Restaurants({setRestaurant, setMenu}) {
     const [rName, setRName] = useState()
     const [restaurants, setRestaurants] = useState()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const getRestaurants = async () => {
@@ -11,9 +14,16 @@ function Restaurants({setRestaurant, setMenu}) {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             })
-                .then(data => data.json())
+                .then(response => {
+                    if (response.status !== 200) {
+                        alert(response.status + " unauthorized")
+                        navigate('/')
+                    }
+                    else return response.json()
+                })
                 .then(data => {
                     setRestaurants(data)
                 })
@@ -26,7 +36,8 @@ function Restaurants({setRestaurant, setMenu}) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: "include"
         })
             .then(data => data.json())
             .then(data => {
@@ -40,7 +51,8 @@ function Restaurants({setRestaurant, setMenu}) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: "include"
         })
             .then(data => data.json())
             .then(data => {

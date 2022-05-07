@@ -12,6 +12,7 @@ public class Admin implements UserI {
     private String name;
     private User user;
     private Restaurant restaurant;
+    private String email;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -32,6 +33,16 @@ public class Admin implements UserI {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

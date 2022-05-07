@@ -11,7 +11,9 @@ import sd.assignment.Repository.MenuRepository;
 import sd.assignment.Repository.RestaurantRepository;
 import sd.assignment.Service.DTO.FoodDTO;
 import sd.assignment.Service.Mappers.FoodMapper;
+import sd.assignment.Service.Utils.WriterPDF;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,5 +52,11 @@ public class FoodService {
         menu.setFood(food);
         menu.setRestaurant(adminRepository.findById(foodDTO.getAdmin()).getRestaurant());
         menuRepository.save(menu);
+    }
+
+    public byte[] getMenuPDF(Integer rId) {
+        WriterPDF writer = new WriterPDF();
+        writer.write(getFoodsByRId(rId));
+        return writer.close();
     }
 }

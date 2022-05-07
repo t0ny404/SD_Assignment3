@@ -1,14 +1,19 @@
 package sd.assignment.Controller;
 
+import ch.qos.logback.core.encoder.ByteArrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 import sd.assignment.Service.DTO.FoodDTO;
 import sd.assignment.Service.DTO.ResponseDTO;
 import sd.assignment.Service.FoodService;
 import sd.assignment.Service.Utils.Severity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +36,10 @@ public class MenuController {
     public List<FoodDTO> getFoodsByRId(@PathVariable Integer rId) {
         return foodService.getFoodsByRId(rId);
     }
+
+    @GetMapping("pdf/{rId}")
+    @ResponseBody
+    public byte[] getMenuPDF(@PathVariable Integer rId) { return foodService.getMenuPDF(rId); }
 
     @PostMapping("add")
     public ResponseEntity addFood(@RequestBody FoodDTO foodDTO) {

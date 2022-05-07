@@ -15,7 +15,8 @@ function Menu({restaurant, menu}) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(f)
+            body: JSON.stringify(f),
+            credentials: "include"
         })
             .then(() => {
                 total += f.price

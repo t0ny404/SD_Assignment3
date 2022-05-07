@@ -12,7 +12,8 @@ function Orders({restaurant}) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: "include"
         })
             .then(data => data.json())
             .then(data => {
@@ -31,7 +32,8 @@ function Orders({restaurant}) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: "include"
         })
             .then(data => data.json())
             .then(data => {
@@ -45,7 +47,8 @@ function Orders({restaurant}) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: "include"
         })
             .then(getOrders)
     }

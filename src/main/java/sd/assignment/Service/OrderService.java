@@ -3,6 +3,7 @@ package sd.assignment.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sd.assignment.Model.Admin;
 import sd.assignment.Model.Cart;
 import sd.assignment.Model.Order;
 import sd.assignment.Model.Restaurant;
@@ -10,7 +11,9 @@ import sd.assignment.Model.Utils.Status;
 import sd.assignment.Repository.*;
 import sd.assignment.Service.DTO.FoodDTO;
 import sd.assignment.Service.DTO.OrderDTO;
+import sd.assignment.Service.DTO.PlaceOrderDTO;
 import sd.assignment.Service.Mappers.FoodMapper;
+import sd.assignment.Service.Utils.MailSender;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +34,10 @@ public class OrderService {
     private MenuRepository menuRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private AdminRepository adminRepository;
+
+    private final MailSender mailSender = new MailSender();
 
     public void order(Integer user) {
         Restaurant restaurant = restaurantRepository.findById(ActiveCart.getCart().getRestaurant());
@@ -51,6 +58,11 @@ public class OrderService {
         }
     }
 
+    public void sendEmail(PlaceOrderDTO order) {
+        Admin admin = adminRepository.findByRestaurant(restaurantRepository.findById(ActiveCart.getCart().getRestaurant()));
+        mailSender.send(admin.getEmail(), ActiveCart.getCart().getAll(), ActiveCart.getCart().getTotal(), order);
+    }
+
     public List<OrderDTO> getHistory(Integer user) {
         return orderRepository.findByCustomerAndStatusIn(customerRepository.findById(user), new Status[]{Status.DECLINED, Status.DELIVERED})
                 .stream().map(o -> new OrderDTO(
@@ -62,6 +74,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getCurrent(Integer user) {
+        System.out.println("aiciiiiiiiiiiiiii    " + user);
         return orderRepository.findByCustomerAndStatusNotIn(customerRepository.findById(user), new Status[]{Status.DECLINED, Status.DELIVERED})
                 .stream().map(o -> new OrderDTO(
                         o.getId(),

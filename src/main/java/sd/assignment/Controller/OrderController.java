@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sd.assignment.Service.ActiveCart;
 import sd.assignment.Service.DTO.OrderDTO;
+import sd.assignment.Service.DTO.PlaceOrderDTO;
 import sd.assignment.Service.OrderService;
 
 import java.util.List;
@@ -17,9 +18,14 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("order")
-    public void order(@RequestBody Integer user) {
-        orderService.order(user);
+    public void order(@RequestBody Integer id) {
+        orderService.order(id);
         ActiveCart.getCart().empty();
+    }
+
+    @PostMapping("email")
+    public void email(@RequestBody PlaceOrderDTO order) {
+        orderService.sendEmail(order);
     }
 
     @GetMapping("history/{user}")

@@ -1,14 +1,17 @@
 import React, {Component, useEffect, useState} from "react";
 import '../index.css';
 import {useLocation, useNavigate} from "react-router-dom";
+import GetCurrent from "../GetCurrent";
 
 function Cart() {
 
-    const {state} = useLocation();
-    const {user} = state
+    const [auth, setAuth] = useState(false)
+    const [user, setUser] = useState({id: -1, type: ''})
 
     const [foods, setFoods] = useState()
     const [total, setTotal] = useState()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const getFoods = async () => {
@@ -16,7 +19,8 @@ function Cart() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             })
                 .then(data => data.json())
                 .then(data => {
@@ -28,35 +32,54 @@ function Cart() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                credentials: "include"
             })
                 .then(data => data.json())
                 .then(data => {
                     setTotal(data)
                 })
         }
+
+        GetCurrent(setAuth, setUser, navigate);
         getFoods();
         getTotal();
     }, [])
 
-    const navigate = useNavigate()
-
     const order = async () => {
+        const address = prompt("Enter address")
+        const details = prompt("Additional details")
+
+        let id = user.id
+        let o = {
+            id,
+            address,
+            details
+        }
         fetch('http://localhost:8082/order/order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(id),
+                credentials: "include"
             })
                 .then(() => {
                     alert("Order of: " + total.toString() + " placed!")
                     setFoods(null)
-                    navigate('/orders', {state: {user}})
+                    navigate('/orders')
                 })
+        fetch('http://localhost:8082/order/email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(o),
+            credentials: "include"
+        })
     }
 
-    return (
+    if (auth && user.type === 'Customer') return (
         <div>
             {
              foods?.map((f, i) => (

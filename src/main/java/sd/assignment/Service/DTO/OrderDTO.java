@@ -9,6 +9,7 @@ public class OrderDTO {
     private String date;
     private String status;
 
+
     public OrderDTO(Integer id, String rName, Integer price, String date, String status) {
         this.id = id;
         this.rName = rName;
@@ -24,6 +25,9 @@ public class OrderDTO {
         this.date = date;
         this.status = status;
     }
+
+    public OrderDTO() {}
+
     public String getrName() {
         return rName;
     }
