@@ -1,6 +1,10 @@
 package sd.assignment.Service.DTO;
 
 
+import sd.assignment.Model.Restaurant;
+
+import java.util.Objects;
+
 public class RestaurantDTO {
     private String name;
     private String location;
@@ -62,5 +66,18 @@ public class RestaurantDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RestaurantDTO that = (RestaurantDTO) o;
+
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(location, that.location)) return false;
+        return Objects.equals(zones, that.zones);
     }
 }

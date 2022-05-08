@@ -16,7 +16,6 @@ import sd.assignment.Service.Mappers.FoodMapper;
 import sd.assignment.Service.Utils.MailSender;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,7 +73,6 @@ public class OrderService {
     }
 
     public List<OrderDTO> getCurrent(Integer user) {
-        System.out.println("aiciiiiiiiiiiiiii    " + user);
         return orderRepository.findByCustomerAndStatusNotIn(customerRepository.findById(user), new Status[]{Status.DECLINED, Status.DELIVERED})
                 .stream().map(o -> new OrderDTO(
                         o.getId(),

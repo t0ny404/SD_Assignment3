@@ -53,30 +53,6 @@ public class UserService implements UserDetailsService {
         customerRepository.save(customer);
     }
 
-//    public UserDTO login(LoginDTO loginDTO) throws InvalidLoginException {
-//        Optional<User> opt = userRepository.findByUsername(loginDTO.getUsername());
-//        if (opt.isEmpty()) {
-//            throw new InvalidLoginException();
-//        }
-//        User user = opt.get();
-//
-//        if (!ENCODER.matches(loginDTO.getPassword(), user.getPassword())) {
-//            throw new InvalidLoginException();
-//        }
-//
-//        UserI userI;
-//        String type = "Customer";
-//        if (user.getType() == null)
-//            userI = new NoUser();
-//        else if (user.getType()) {
-//            userI = adminRepository.findByUser(user);
-//            type = "Admin";
-//        }
-//        else userI = customerRepository.findByUser(user);
-//
-//        return new UserAdapter(userI, type).convertToDTO();
-//    }
-
     public UserDTO getCurrentUser(org.springframework.security.core.userdetails.User user) {
         if (user == null)
             return new UserAdapter(new NoUser(), "").convertToDTO();
