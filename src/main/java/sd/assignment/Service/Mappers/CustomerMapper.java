@@ -4,7 +4,6 @@ import sd.assignment.Model.Customer;
 import sd.assignment.Model.User;
 import sd.assignment.Service.DTO.RegisterDTO;
 import sd.assignment.Service.UserService;
-import sd.assignment.Service.Utils.Encoder;
 
 
 public class CustomerMapper implements Mapper<Customer, RegisterDTO> {

@@ -1,15 +1,24 @@
 package sd.assignment.Model;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
+
 
 @Entity
 @Table(name = "menu")
 public class Menu {
+
     private Integer id;
     private Restaurant restaurant;
     private Food food;
+
+
+    public Menu() {}
+
+    public Menu(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -20,21 +29,6 @@ public class Menu {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Menu menu = (Menu) o;
-
-        return Objects.equals(id, menu.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     @ManyToOne
@@ -55,5 +49,20 @@ public class Menu {
 
     public void setFood(Food food) {
         this.food = food;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Menu menu = (Menu) o;
+
+        return Objects.equals(id, menu.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

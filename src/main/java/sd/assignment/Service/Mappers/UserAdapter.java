@@ -9,13 +9,18 @@ public class UserAdapter implements Mapper<UserI, UserDTO> {
     private final String type;
     private final UserI userI;
 
+
     public UserAdapter(UserI userI, String type) {
         this.type = type;
         this.userI = userI;
     }
 
+
     public UserDTO convertToDTO() {
-        return new UserDTO(userI.getId(), userI.getName(), type, userI.getRestaurant() != null ? userI.getRestaurant().getId() : null);
+        return new UserDTO(userI.getId(),
+                userI.getName(),
+                type,
+                userI.getRestaurant() != null ? userI.getRestaurant().getId() : null);
 
     }
 

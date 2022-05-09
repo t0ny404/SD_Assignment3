@@ -1,15 +1,10 @@
 package sd.assignment.Service.Utils;
 
+import sd.assignment.Service.DTO.FoodDTO;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
-import sd.assignment.Service.DTO.FoodDTO;
 
 /**
  * The type Writer pdf.

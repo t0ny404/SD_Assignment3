@@ -5,14 +5,17 @@ import sd.assignment.Model.Utils.Category;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "food")
 public class Food {
+
     private Integer id;
     private Category category;
     private String name;
     private String description;
     private Integer price;
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)

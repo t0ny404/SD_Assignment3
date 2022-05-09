@@ -1,12 +1,13 @@
 package sd.assignment.Model;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
+
 
 @Entity
 @Table(name = "restaurant")
 public class Restaurant {
+
     private Integer id;
     private String name;
     private String location;

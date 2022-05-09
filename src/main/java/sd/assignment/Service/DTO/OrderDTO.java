@@ -1,5 +1,7 @@
 package sd.assignment.Service.DTO;
 
+import java.util.Objects;
+
 public class OrderDTO {
 
     private Integer id;
@@ -27,6 +29,7 @@ public class OrderDTO {
     }
 
     public OrderDTO() {}
+
 
     public String getrName() {
         return rName;
@@ -74,5 +77,17 @@ public class OrderDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderDTO order = (OrderDTO) o;
+
+        return (Objects.equals(id, order.id) && Objects.equals(status, order.status) &&
+                Objects.equals(rName, order.getrName()) && Objects.equals(price, order.getPrice()) &&
+                Objects.equals(date, order.getDate()));
     }
 }

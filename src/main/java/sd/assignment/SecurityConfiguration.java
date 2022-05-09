@@ -1,5 +1,7 @@
 package sd.assignment;
 
+import sd.assignment.Service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,19 +10,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
-
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfLogoutHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SimpleSavedRequest;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
-import sd.assignment.Service.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -48,16 +44,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/current").permitAll()
-                //.antMatchers("/**/*.{js,html,css}").permitAll()
                 .antMatchers("/menu/all").hasAuthority("Admin")
 
                 .anyRequest().authenticated()
                 .and()
 
                 .formLogin()
-                .successHandler((request, response, authentication) -> {
-                    new DefaultRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/view");
-                })
+                .successHandler((request, response, authentication) ->
+                        new DefaultRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/view"))
                 .permitAll()
                 .and()
 

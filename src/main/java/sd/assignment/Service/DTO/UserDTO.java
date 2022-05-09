@@ -8,12 +8,14 @@ public class UserDTO {
     private String type;
     private Integer restaurant;
 
+
     public UserDTO(Integer id, String name, String type, Integer r) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.restaurant = r;
     }
+
 
     public Integer getId() {
         return id;

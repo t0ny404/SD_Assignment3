@@ -1,17 +1,19 @@
 package sd.assignment.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Objects;
+
 
 @Entity
 @Table(name = "user")
 public class User {
+
     private Integer id;
     private String username;
     private @JsonIgnore String password;
     private Boolean type;
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)

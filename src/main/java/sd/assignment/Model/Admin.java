@@ -5,14 +5,17 @@ import sd.assignment.Model.Utils.UserI;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "admin")
 public class Admin implements UserI {
+
     private Integer id;
     private String name;
     private User user;
     private Restaurant restaurant;
     private String email;
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -45,6 +48,22 @@ public class Admin implements UserI {
         this.email = email;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User userByUser) {
+        this.user = userByUser;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "restaurant", referencedColumnName = "id")
+    public Restaurant getRestaurant() { return restaurant; }
+
+    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,20 +81,4 @@ public class Admin implements UserI {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User userByUser) {
-        this.user = userByUser;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "restaurant", referencedColumnName = "id")
-    public Restaurant getRestaurant() { return restaurant; }
-
-    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant;}
 }

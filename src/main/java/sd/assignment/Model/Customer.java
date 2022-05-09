@@ -5,14 +5,17 @@ import sd.assignment.Model.Utils.UserI;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "customer")
 public class Customer implements UserI {
+
     private Integer id;
     private String name;
     private String email;
     private Integer age;
     private User user;
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -55,6 +58,16 @@ public class Customer implements UserI {
         this.age = age;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User userByUser) {
+        this.user = userByUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,16 +86,6 @@ public class Customer implements UserI {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User userByUser) {
-        this.user = userByUser;
     }
 
     @Override

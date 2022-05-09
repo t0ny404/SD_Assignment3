@@ -10,6 +10,7 @@ public class FoodDTO {
     private Integer id;
     private Integer quantity;
 
+
     public FoodDTO(String name, String category, String description, Integer price, Integer id, Integer admin) {
         this.name = name;
         this.category = category;
@@ -18,6 +19,7 @@ public class FoodDTO {
         this.admin = admin;
         this.id = id;
     }
+
 
     public String getName() {
         return name;
