@@ -5,6 +5,7 @@ public class PlaceOrderDTO {
     private String address;
     private String details;
 
+
     public PlaceOrderDTO(Integer id, String address, String details) {
         this.id = id;
         this.address = address;
@@ -12,6 +13,7 @@ public class PlaceOrderDTO {
     }
 
     public PlaceOrderDTO() {}
+
 
     public Integer getId() {
         return id;

@@ -1,6 +1,5 @@
 package sd.assignment.Service.Utils;
 
-
 import sd.assignment.Service.DTO.FoodDTO;
 import sd.assignment.Service.DTO.PlaceOrderDTO;
 
@@ -21,6 +20,7 @@ public class MailSender {
     private final Session session;
     private final String from = "medicdebuzunar@gmail.com";
 
+
     public MailSender() {
         String host = "smtp.gmail.com";
 
@@ -37,6 +37,7 @@ public class MailSender {
         });
         session.setDebug(true);
     }
+
 
     public void send(String to, List<FoodDTO> foods, Integer price, PlaceOrderDTO order) {
         try {

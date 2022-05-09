@@ -9,6 +9,7 @@ public class RegisterDTO {
     private String email;
     private String age;
 
+
     public RegisterDTO(String username, String password, String checkpswd, String name, String email, String age) {
         this.username = username;
         this.password = password;
@@ -17,6 +18,7 @@ public class RegisterDTO {
         this.email = email;
         this.age = age;
     }
+
 
     public String getUsername() {
         return username;

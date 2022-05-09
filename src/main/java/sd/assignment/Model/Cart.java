@@ -3,13 +3,16 @@ package sd.assignment.Model;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "cart")
 public class Cart {
+
     private Integer id;
     private Menu menu;
     private Order order;
     private Integer quantity;
+
 
     public Cart() {}
 
@@ -18,6 +21,7 @@ public class Cart {
         this.order = order;
         this.quantity = quantity;
     }
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -28,21 +32,6 @@ public class Cart {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cart cart = (Cart) o;
-
-        return Objects.equals(id, cart.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     @ManyToOne
@@ -73,5 +62,20 @@ public class Cart {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cart cart = (Cart) o;
+
+        return Objects.equals(id, cart.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

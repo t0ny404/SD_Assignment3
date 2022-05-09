@@ -1,20 +1,22 @@
 package sd.assignment.Model;
 
-import org.springframework.data.relational.core.sql.In;
 import sd.assignment.Model.Utils.Status;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "orderr")
 public class Order {
+
     private Integer id;
     private Status status;
     private Customer customer;
     private Restaurant restaurant;
     private String date;
     private Integer price;
+
 
     public Order(Restaurant restaurant, Customer customer, Status status, String date, Integer total) {
         this.restaurant = restaurant;
@@ -25,6 +27,7 @@ public class Order {
     }
 
     public Order() {}
+
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -45,24 +48,6 @@ public class Order {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        if (!Objects.equals(id, order.id)) return false;
-        return Objects.equals(status, order.status);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
     }
 
     @ManyToOne
@@ -103,5 +88,23 @@ public class Order {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (!Objects.equals(id, order.id)) return false;
+        return Objects.equals(status, order.status);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        return result;
     }
 }

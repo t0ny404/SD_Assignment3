@@ -7,11 +7,13 @@ public class RestaurantMapper implements Mapper<Restaurant, RestaurantDTO> {
 
     private Restaurant restaurant;
 
+
     public RestaurantMapper() {}
 
     public RestaurantMapper(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
 
     public Restaurant convertFromDTO(RestaurantDTO restaurantDTO) {
         Restaurant restaurant =  new Restaurant();
@@ -23,7 +25,9 @@ public class RestaurantMapper implements Mapper<Restaurant, RestaurantDTO> {
     }
 
     public RestaurantDTO convertToDTO() {
-        RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getName(), restaurant.getLocation(), restaurant.getDeliveryzone());
+        RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getName(),
+                restaurant.getLocation(),
+                restaurant.getDeliveryzone());
         restaurantDTO.setId(restaurant.getId());
         return restaurantDTO;
     }

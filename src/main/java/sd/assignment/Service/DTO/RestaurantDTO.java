@@ -1,9 +1,7 @@
 package sd.assignment.Service.DTO;
 
-
-import sd.assignment.Model.Restaurant;
-
 import java.util.Objects;
+
 
 public class RestaurantDTO {
     private String name;
@@ -11,6 +9,7 @@ public class RestaurantDTO {
     private String zones;
     private Integer admin;
     private Integer id;
+
 
     public RestaurantDTO() {
     }
@@ -27,6 +26,7 @@ public class RestaurantDTO {
         this.location = location;
         this.zones = zones;
     }
+
 
     public String getName() {
         return name;

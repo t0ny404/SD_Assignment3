@@ -8,6 +8,7 @@ public class ResponseDTO {
     private Severity severity;
     private UserDTO userDTO;
 
+
     public ResponseDTO(String message, Severity severity) {
         this.message = message;
         this.severity = severity;
@@ -18,6 +19,7 @@ public class ResponseDTO {
         this.severity = severity;
         this.userDTO = userDTO;
     }
+
 
     public String getMessage() {
         return message;

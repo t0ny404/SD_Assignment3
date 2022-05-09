@@ -5,23 +5,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.verification.VerificationMode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 import sd.assignment.Model.*;
 import sd.assignment.Model.Utils.Category;
 import sd.assignment.Model.Utils.Status;
 import sd.assignment.Repository.*;
 import sd.assignment.Service.ActiveCart;
 import sd.assignment.Service.DTO.FoodDTO;
-import sd.assignment.Service.DTO.PlaceOrderDTO;
+import sd.assignment.Service.DTO.OrderDTO;
+
 import sd.assignment.Service.OrderService;
 import sd.assignment.Service.Utils.MailSender;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
@@ -51,18 +49,12 @@ public class OrderServiceTest {
     ArgumentCaptor<Order> orderC;
     @Captor
     ArgumentCaptor<Cart> cartC;
-    @Captor
-    ArgumentCaptor<String> toC;
-    @Captor
-    ArgumentCaptor<List<FoodDTO>> foodsC;
-    @Captor
-    ArgumentCaptor<Integer> priceC;
-    @Captor
-    ArgumentCaptor<PlaceOrderDTO> placeOrderC;
 
     private Restaurant restaurant;
     private Customer customer;
     private Food food1, food2;
+    private Order order;
+    private Cart cart;
 
     @Before
     public void setup() {
@@ -89,8 +81,21 @@ public class OrderServiceTest {
         ActiveCart.getCart().add(new FoodDTO("aa", "DESSERT", "aa", 2, 1, 1));
         ActiveCart.getCart().add(new FoodDTO("bb", "DESSERT", "bb", 3, 2, 1));
 
+        order = new Order(restaurant,
+                customer,
+                Status.PENDING,
+                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
+                5);
+        order.setId(1);
+
+        cart = new Cart();
+        cart.setMenusByMenu(new Menu(restaurant));
+
+
         customer =  new Customer();
         customer.setId(1);
+
+        order.setCustomer(customer);
     }
 
     @Test
@@ -100,39 +105,91 @@ public class OrderServiceTest {
         Mockito.doReturn(new Menu()).when(menuRepository).findByRestaurantAndFood(restaurant, food1);
         Mockito.doReturn(new Menu()).when(menuRepository).findByRestaurantAndFood(restaurant, food2);
 
-        Order order = new Order(restaurant,
-                customer,
-                Status.PENDING,
-                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
-                5);
-
         orderService.order(1);
 
         Mockito.verify(orderRepository).save(orderC.capture());
-        assertEquals(order, orderC.getValue());
+        assertEquals(order.getStatus(), orderC.getValue().getStatus());
+
 
         Mockito.verify(cartRepository, times(2)).save(cartC.capture());
         assertEquals(new Cart(new Menu(), order, 1), cartC.getValue());
     }
 
     @Test
-    public void successfulMail() {
-        Admin admin = new Admin();
-        admin.setEmail("aa@gmail.com");
+    public void successfulGetHistory() {
+        Mockito.doReturn(customer).when(customerRepository).findById(1);
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(order))).when(orderRepository)
+                .findByCustomerAndStatusIn(customer, new Status[]{Status.DECLINED, Status.DELIVERED});
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(cart))).when(cartRepository).findByOrder(order);
 
-        List<FoodDTO> foods = new ArrayList<>();
-        foods.add(new FoodDTO("aa", "DESSERT", "aa", 2, 1, 1));
-        foods.add(new FoodDTO("bb", "DESSERT", "bb", 3, 2, 1));
-
-        Mockito.doReturn(restaurant).when(restaurantRepository).findById(1);
-        Mockito.doReturn(admin).when(adminRepository).findByRestaurant(restaurant);
-
-        orderService.sendEmail(new PlaceOrderDTO());
-
-        Mockito.verify(mailSender).send(toC.capture(), foodsC.capture(), priceC.capture(), placeOrderC.capture());
-        assertEquals("aa@gmail.com", toC.getValue());
-        assertEquals(foods, foodsC.getValue());
-        assertEquals(5, priceC.getValue().intValue());
+        assertEquals(new ArrayList<>(Collections.singletonList(new OrderDTO(
+                1,
+                "aa",
+                5,
+                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
+                Status.PENDING.name()))), orderService.getHistory(1));
     }
 
+    @Test
+    public void successfulGetCurrent() {
+        Mockito.doReturn(customer).when(customerRepository).findById(1);
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(order))).when(orderRepository)
+                .findByCustomerAndStatusNotIn(customer, new Status[]{Status.DECLINED, Status.DELIVERED});
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(cart))).when(cartRepository).findByOrder(order);
+
+        assertEquals(new ArrayList<>(Collections.singletonList(new OrderDTO(
+                1,
+                "aa",
+                5,
+                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
+                Status.PENDING.name()))), orderService.getCurrent(1));
+    }
+
+    @Test
+    public void successfulGetAll() {
+        Mockito.doReturn(restaurant).when(restaurantRepository).findById(1);
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(order)))
+                .when(orderRepository).findByRestaurant(restaurant);
+
+        assertEquals(new ArrayList<>(Collections.singletonList(new OrderDTO(
+                1,
+                1,
+                5,
+                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
+                Status.PENDING.name()))), orderService.getAll(1));
+    }
+
+    @Test
+    public void successfulGetAllFilter() {
+        Mockito.doReturn(restaurant).when(restaurantRepository).findById(1);
+        Mockito.doReturn(new ArrayList<>(Collections.singletonList(order)))
+                .when(orderRepository).findByRestaurant(restaurant);
+
+        assertEquals(new ArrayList<>(Collections.singletonList(new OrderDTO(
+                1,
+                1,
+                5,
+                new SimpleDateFormat("dd-MM-yyyy").format(new Date()),
+                Status.PENDING.name()))), orderService.getAllFilter(1, Status.PENDING.name()));
+    }
+
+    @Test
+    public void successfulChange() {
+        Mockito.doReturn(order).when(orderRepository).findById(1);
+
+        orderService.change(1, Status.ACCEPTED.name());
+
+        Mockito.verify(orderRepository).save(orderC.capture());
+        assertEquals(Status.ACCEPTED, orderC.getValue().getStatus());
+    }
+
+    @Test
+    public void worngStatusChange() {
+        Mockito.doReturn(order).when(orderRepository).findById(1);
+
+        orderService.change(1, "no status");
+
+        Mockito.verify(orderRepository).save(orderC.capture());
+        assertEquals(Status.PENDING, orderC.getValue().getStatus());
+    }
 }

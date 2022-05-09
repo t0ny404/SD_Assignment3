@@ -6,7 +6,9 @@ public class UserValidator {
 
     public void validateRegister(RegisterDTO registerDTO) throws InvalidRegisterException {
         if (registerDTO != null) {
-            if (registerDTO.getPassword() == null || registerDTO.getCheckpswd() == null || registerDTO.getPassword().length() < 8)
+            if (registerDTO.getPassword() == null ||
+                    registerDTO.getCheckpswd() == null ||
+                    registerDTO.getPassword().length() < 8)
                 throw new InvalidRegisterException("Invalid password!");
             if (!registerDTO.getPassword().equals(registerDTO.getCheckpswd()))
                 throw new InvalidRegisterException("Passwords do not match!");

@@ -4,6 +4,7 @@ import sd.assignment.Model.Restaurant;
 
 //Behavioral DP: NullObject
 public class NoUser implements UserI {
+
     @Override
     public Integer getId() {
         return -1;
