@@ -17,8 +17,7 @@ public class WriterPDF {
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
     /**
-     * Instantiates a new Writer pdf, names the pdf according to the current date-time,
-     * puts the watermark in the pdf and sets the fonts used.
+     * Instantiates a new Writer pdf.
      *
      */
     public WriterPDF() {
@@ -32,8 +31,7 @@ public class WriterPDF {
     }
 
     /**
-     * Writes the orders details in the pdf (=the bill) and
-     * and increment the counter of 'daily' orders.
+     * Writes the menu details in the pdf.
      *
      * @param foods
      */
