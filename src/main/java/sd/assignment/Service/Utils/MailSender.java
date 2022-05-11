@@ -32,7 +32,7 @@ public class MailSender {
 
         session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("medicdebuzunar@gmail.com", "Medicdebuzunar123.");
+                return new PasswordAuthentication("email@gmail.com", "password");
             }
         });
         session.setDebug(true);
