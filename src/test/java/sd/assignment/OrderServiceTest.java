@@ -184,7 +184,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void worngStatusChange() {
+    public void wrongStatusChange() {
         Mockito.doReturn(order).when(orderRepository).findById(1);
 
         orderService.change(1, "no status");
